@@ -66,7 +66,7 @@ class WatchRecord_model extends CI_Model {
 		$this->db->where('WR_PplID =', $people_id);
 		$this->db->where('WR_BeginTime >=', $dayTime + $i * 24 * 60 * 60);
 		$this->db->where('WR_BeginTime < ', $dayTime + ($i + 1) * 24 * 60 * 60);
-		$this->db->order_by('WR_BeginTime')->limit(1);
+		$this->db->order_by('WR_BeginTime', 'asc')->limit(1);
 		return $this->db->get()->result_array();
 		
 	}
