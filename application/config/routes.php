@@ -50,6 +50,7 @@ $route['watchrecord']='watchrecord';
 $route['watchrecord/view']='watchrecord/view';
 $route['watchrecord/strtotime']='watchrecord/strtotime';
 $route['watchrecord/byday']='watchrecord/byday';
+$route['watchrecord/bytime']='watchrecord/bytime';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
