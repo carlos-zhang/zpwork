@@ -43,6 +43,14 @@ text-decoration: none;
     width: 80%;
     float: left;
 }
+#options{
+    background-color: #A0CC8E;
+    float: left;
+}
+#options form div{
+    margin: 10px;
+}
+
 .footer{
 	height: 80px;
 	background-color: #333;
