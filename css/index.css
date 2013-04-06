@@ -6,7 +6,7 @@ html{color:#000;background:#FFF}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre
 }   
 .header h1{
     font-size: 48px;
-
+margin-left: 45px;
 line-height: 100px;
 font-family: 微软雅黑;
 }
@@ -31,6 +31,13 @@ font-family: 微软雅黑;
 }
 .left-menu li{
     margin-top:10px;
+}
+.left-menu li a{
+color: #fff;
+text-decoration: none;
+}
+.left-menu li a:hover{
+    color: #009ff0;
 }
 .main {
     width: 80%;

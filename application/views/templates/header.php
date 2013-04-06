@@ -19,15 +19,15 @@ $this->load->helper('url');
 <div class="content">
     <div class="left-menu">
         <ul>
-            <h2>收视数据统计分析</h2>
-            <li>每日开机人数图</li>
-            <li>每时开机人数图</li>
+            <h2>收视数据图表分析</h2>
+            <li><a href="http://127.0.0.1/zpwork/watchrecord/byday">每日开机人数图</a></li>
+            <li><a href="http://127.0.0.1/zpwork/watchrecord/bytime">每时开机人数图</a></li>
 
         </ul>
         <ul>
-            <h2>人群聚类分析</h2>
-            <li>各类人群每日开机图</li>
-            <li>各类人群每时开机图</li>
+            <h2>广告投放推荐</h2>
+            <li>开机广告</li>
+            <li>vod点播广告</li>
         </ul>
 
     </div>
