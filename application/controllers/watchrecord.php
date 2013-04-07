@@ -123,7 +123,7 @@ class WatchRecord extends CI_Controller {
     }
 
     public function byoptions() {
-        $options = array("Ppl_Sex" => "男");
+        $options = array("Ppl_Sex"=>"男");
         $data['days'] = $this->totalpeoplebydayandoptions($options);
         $data['title'] = '每日开机人数';
         $this->load->view('templates/header', $data);

@@ -82,6 +82,23 @@ class WatchRecord_model extends CI_Model {
 		$this->db->where('peoplesample.Ppl_Sex =', $gender);
 		return $this->db->get()->num_rows();
     }
+    
+     public function get_amountBydayandoptions($dayTime, $options) {		
+		$this->db->distinct();
+		$this->db->select('WR_PplID');
+
+        $this->db->from('watchrecordpeoplesample');
+		$this->db->join('peoplesample', 'watchrecordpeoplesample.WR_PplID = peoplesample.Ppl_ID');
+		$this->db->where('watchrecordpeoplesample.WR_BeginTime >=', $dayTime);
+		$this->db->where('watchrecordpeoplesample.WR_BeginTime <', $dayTime + 24 * 60 * 60);
+                if(count($options)>0){
+                    foreach ($options as $key=>$name){
+                        $this->db->or_where('peoplesample.'.$key.'=', $name);
+                    }
+                }
+                
+		return $this->db->get()->num_rows();
+    }
 
 }
 ?>
