@@ -16,7 +16,7 @@ foreach($days as $day=>$amount){
 $(function () {    
     $("#submit").click(function(){
         $.ajax({
-        url:'http://localhost/zpwork/index.php/watchrecord/byoptions',
+        url:'http://127.0.0.1/zpwork/index.php/watchrecord/byoptions',
         data:$('form').serialize(),
         type:"get"
    });
@@ -109,6 +109,7 @@ $(function () {
                  <input name='job[]' type='checkbox' value='13'>计算机(IT/互联网)
                  <input name='job[]' type='checkbox' value='14'>交通运输/邮电通信
                  <input name='job[]' type='checkbox' value='15'>广播电视/文化艺术
+                 <input name='job[]' type='checkbox' value='16'>其它
                 </div>
                 <div>
                  <button id='submit'>执行</button>

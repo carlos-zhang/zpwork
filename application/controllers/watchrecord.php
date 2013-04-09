@@ -25,7 +25,6 @@ class WatchRecord extends CI_Controller {
     public function strtotime() {
         $this->watchrecord_model->strtotime();
         // $data['watchrecords'] = $this->watchrecord_model->get_watchrecords();
-
         $this->load->view('watchrecord/converttest');
     }
    
@@ -48,7 +47,6 @@ class WatchRecord extends CI_Controller {
             $daytime = strtotime($day);
             $result[$day] = $this->watchrecord_model->get_amountByday($daytime);
         }
-
         return $result;
     }
 
@@ -95,7 +93,6 @@ class WatchRecord extends CI_Controller {
             $daytime = strtotime($day);
             $result[$day] = $this->watchrecord_model->get_amountBydayandoptions($daytime, $options);
         }
-
         return $result;
     }
 
@@ -127,8 +124,9 @@ class WatchRecord extends CI_Controller {
 //        $incomegroup=$_GET['incomegroup'];
 //        $age_low =$_GET['age-low'];
 //        $age_high=$_GET['age-high'];
-    $options=$_GET;
-        return $this->totalpeoplebydayandoptions($options);
+        $options=$_GET;
+        echo  json_encode($this->totalpeoplebydayandoptions($options));
+       
 //        $data['title'] = '每日开机人数';
 //        $this->load->view('templates/header', $data);
 //        $this->load->view('watchrecord/amountbyday');
@@ -189,6 +187,9 @@ class WatchRecord extends CI_Controller {
 
     public function birthdaytoage(){
         $this->watchrecord_model->birthdaytoage();
+    }
+    public function  callingtonum(){
+        $this->watchrecord_model->callingtonumber();
     }
 }
 

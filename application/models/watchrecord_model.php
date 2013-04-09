@@ -93,7 +93,8 @@ class WatchRecord_model extends CI_Model {
 		$this->db->where('watchrecordpeoplesample.WR_BeginTime <', $dayTime + 24 * 60 * 60);
                 if(count($options)>0){
                     foreach ($options as $key=>$name){
-                        if($key=='age-low'){
+                        if($name!=''){
+                            if($key=='age-low'){
                             $this->db->where('peoplesample.Ppl_age >=',$name);
                                                         continue;
                         }
@@ -102,10 +103,12 @@ class WatchRecord_model extends CI_Model {
                             continue;
                         }
                         if($key=='job'){
-                            $this->db->where_in('peoplesample.Ppl_calling',$name);
+                            $this->db->where_in('peoplesample.Ppl_Callingnum',$name);
                             continue;
                         }
                         $this->db->where('peoplesample.'.$key.' =', $name);
+                        }
+                      
                     }
                 }
                 
@@ -126,6 +129,63 @@ $this->db->where('Ppl_id', $birthday['Ppl_Id']);
 $this->db->update('peoplesample', $data); 
         }
             
+    }
+    public function callingtonumber(){
+        $this->db->select('Ppl_Calling');
+        $this->db->select('Ppl_Id');
+        $this->db->from('peoplesample');
+        $callings= $this->db->get()->result_array();
+        $callingsobj=array("媒体/广告/咨询"=>"1"
+            ,"交通/运输"=>"2",
+            "农业/水产"=>"3",
+            "政府机关"=>"4",
+            "教育/培训"=>"5",
+            "医疗/保健/制药"=>"6",
+            "服务业"=>"7",
+            "酒店/旅游/餐饮"=>"8",
+            "金融（银行/证券/保险）"=>"9",
+            "工业/地质"=>"10",
+            "房地产/建筑"=>"11",
+            "贸易/进出口"=>"12",
+            "计算机（IT/互联网）"=>"13",
+            "交通运输/邮电通信"=>"14",
+            "广播电视/文化艺术"=>"15",
+            "其他"=>"16");
+        foreach ($callings as $calling){
+            if($calling['Ppl_Calling']=="")
+                $data=array('Ppl_Callingnum'=>'16');
+            else {
+                $data=array('Ppl_Callingnum'=>$callingsobj[$calling['Ppl_Calling']]);
+            }
+            
+            $this->db->where('Ppl_id', $calling['Ppl_Id']);
+            $this->db->update('peoplesample', $data);
+        }
+    }
+    
+        public function incometonumber(){
+        $this->db->select('Ppl_IncomeGroup');
+        $this->db->select('Ppl_Id');
+        $this->db->from('peoplesample');
+        $incomes= $this->db->get()->result_array();
+        $incomesobj=array("1000元以下"=>"1"
+            ,"1001-2000元"=>"2",
+            "2001-3000元"=>"3",
+            "3001-5000元"=>"4",
+            "50001-8000元"=>"5",
+            "8000元以上"=>"6",
+            "其它"=>"-1",
+            );
+        foreach ($incomes as $income){
+            if($income['Ppl_IncomeGroup']==""||$income['Ppl_IncomeGroup']=="无收入")
+                $data=array('Ppl_Incomenum'=>'-1');
+            else {
+                $data=array('Ppl_Incomenum'=>$callingsobj[$calling['Ppl_Incomenum']]);
+            }
+            
+            $this->db->where('Ppl_id', $calling['Ppl_Id']);
+            $this->db->update('peoplesample', $data);
+        }
     }
 
 }
