@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /*
  * To change this template, choose Tools | Templates
@@ -16,9 +16,9 @@ class WatchRecord extends CI_Controller {
     public function view() {
         $data['watchrecords'] = $this->watchrecord_model->get_watchrecords();
         $data['wr_begin'] = $this->watchrecord_model->get_wr_begin();
-        $data['title'] = "开机广告分析";
-        $this->load->view('templates/header');
-        $this->load->view('watchrecord/test', $data);
+        $data['title'] = "收视记录";
+        $this->load->view('templates/header',$data);
+        $this->load->view('watchrecord/test');
         $this->load->view('templates/footer');
     }
 
@@ -28,8 +28,9 @@ class WatchRecord extends CI_Controller {
 
         $this->load->view('watchrecord/converttest');
     }
+   
 
-    /////////产生三月的日期///////////////////////////////////////////////////
+    /////////产生日期//////////////////////////////////////////////////
     public function generateday($year, $month) {
         $array = array();
         for ($i = 1; $i < 30; $i++) {
@@ -39,7 +40,7 @@ class WatchRecord extends CI_Controller {
         return $array;
     }
 
-    /////////////统计每天开机的人数////////////////////////////////////////////
+    /////////////每日开机总人数////////////////////////////////////////////
     public function totalpeoplebyday() {
         $days = $this->generateday(2011, 3);
         $result = array();
@@ -51,7 +52,7 @@ class WatchRecord extends CI_Controller {
         return $result;
     }
 
-    ////////////////////统计每时开机的人数/////////////////////////////////////
+    ////////////////////缁熻姣忔椂寮€鏈虹殑浜烘暟/////////////////////////////////////
     // public function totalpeoplebytime() {
     //     $days   = $this->generateday(2011, 3);
     //     $temp   = array();
@@ -73,7 +74,7 @@ class WatchRecord extends CI_Controller {
     //     return $result;
     // 
     // }
-    /////////////根据性别统计每天开机的人数////////////////////////////////////////////
+    /////////////按照性别查询每日开机人数////////////////////////////////////////////
     public function totalpeoplebydayandsex() {
         $days = $this->generateday(2011, 3);
         $result = array();
@@ -116,22 +117,25 @@ class WatchRecord extends CI_Controller {
 
     public function bygender() {
         $data['days'] = $this->totalpeoplebydayandsex();
-        $data['title'] = '每日开机人数';
+        $data['title'] = '按性别每日开机人数';
         $this->load->view('templates/header', $data);
         $this->load->view('watchrecord/amountbyday');
         $this->load->view('templates/footer');
     }
 
-    public function byoptions() {
-        $options = array("Ppl_Sex"=>"男");
-        $data['days'] = $this->totalpeoplebydayandoptions($options);
-        $data['title'] = '每日开机人数';
-        $this->load->view('templates/header', $data);
-        $this->load->view('watchrecord/amountbyday');
-        $this->load->view('templates/footer');
+    public function byoptions() {;
+//        $incomegroup=$_GET['incomegroup'];
+//        $age_low =$_GET['age-low'];
+//        $age_high=$_GET['age-high'];
+    $options=$_GET;
+        return $this->totalpeoplebydayandoptions($options);
+//        $data['title'] = '每日开机人数';
+//        $this->load->view('templates/header', $data);
+//        $this->load->view('watchrecord/amountbyday');
+//        $this->load->view('templates/footer');
     }
 
-    ////////////////////统计每时开机的人数/////////////////////////////////////
+    ////////////////////每时开机人数///////////////////////////////////////////////////////////////
     public function totalpeoplebytime() {
         $peopleIdArray = array();
         $this->load->driver('cache');
@@ -183,5 +187,9 @@ class WatchRecord extends CI_Controller {
         return $result;
     }
 
+    public function birthdaytoage(){
+        $this->watchrecord_model->birthdaytoage();
+    }
 }
+
 

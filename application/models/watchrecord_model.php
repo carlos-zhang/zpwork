@@ -93,11 +93,39 @@ class WatchRecord_model extends CI_Model {
 		$this->db->where('watchrecordpeoplesample.WR_BeginTime <', $dayTime + 24 * 60 * 60);
                 if(count($options)>0){
                     foreach ($options as $key=>$name){
-                        $this->db->or_where('peoplesample.'.$key.'=', $name);
+                        if($key=='age-low'){
+                            $this->db->where('peoplesample.Ppl_age >=',$name);
+                                                        continue;
+                        }
+                        if($key=='age-high'){
+                            $this->db->where('peoplesample.Ppl_age <',$name);
+                            continue;
+                        }
+                        if($key=='job'){
+                            $this->db->where_in('peoplesample.Ppl_calling',$name);
+                            continue;
+                        }
+                        $this->db->where('peoplesample.'.$key.' =', $name);
                     }
                 }
                 
 		return $this->db->get()->num_rows();
+    }
+    
+    public function birthdaytoage(){
+        $this->db->select('Ppl_Birthday');
+        $this->db->select('Ppl_Id');
+        $this->db->from('peoplesample');
+        $birthdays=$this->db->get()->result_array();
+        $now=  strtotime('2013-4-9');
+        foreach ($birthdays as $birthday){
+            $age=2013-substr($birthday['Ppl_Birthday'], 0,4) ;
+         $data = array('Ppl_age' => $age);
+
+$this->db->where('Ppl_id', $birthday['Ppl_Id']);
+$this->db->update('peoplesample', $data); 
+        }
+            
     }
 
 }

@@ -42,10 +42,16 @@ text-decoration: none;
 .main {
     width: 80%;
     float: left;
+    -webkit-box-shadow: -17px 0px 27px #222;
 }
 #options{
     background-color: #A0CC8E;
     float: left;
+}
+#chart{
+   float: left;
+width: 100%;
+-webkit-box-shadow: -17px 0px 27px #222;
 }
 #options form div{
     margin: 10px;
