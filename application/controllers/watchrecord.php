@@ -191,6 +191,10 @@ class WatchRecord extends CI_Controller {
     public function  callingtonum(){
         $this->watchrecord_model->callingtonumber();
     }
+     public function  incometonum(){
+        $this->watchrecord_model->incometonumber();
+    }
+    
 }
 
 

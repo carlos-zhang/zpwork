@@ -92,8 +92,12 @@ class WatchRecord_model extends CI_Model {
 		$this->db->where('watchrecordpeoplesample.WR_BeginTime >=', $dayTime);
 		$this->db->where('watchrecordpeoplesample.WR_BeginTime <', $dayTime + 24 * 60 * 60);
                 if(count($options)>0){
+             
                     foreach ($options as $key=>$name){
+                       
                         if($name!=''){
+                            if($key=='Ppl_Incomenum'&&$name==7)
+                                                                continue;
                             if($key=='age-low'){
                             $this->db->where('peoplesample.Ppl_age >=',$name);
                                                         continue;
@@ -168,22 +172,23 @@ $this->db->update('peoplesample', $data);
         $this->db->select('Ppl_Id');
         $this->db->from('peoplesample');
         $incomes= $this->db->get()->result_array();
-        $incomesobj=array("1000元以下"=>"1"
+        $incomesobj=array("1000元及以下"=>"1"
             ,"1001-2000元"=>"2",
             "2001-3000元"=>"3",
             "3001-5000元"=>"4",
-            "50001-8000元"=>"5",
+            "5001-8000元"=>"5",
             "8000元以上"=>"6",
+            
             "其它"=>"-1",
             );
         foreach ($incomes as $income){
             if($income['Ppl_IncomeGroup']==""||$income['Ppl_IncomeGroup']=="无收入")
                 $data=array('Ppl_Incomenum'=>'-1');
             else {
-                $data=array('Ppl_Incomenum'=>$callingsobj[$calling['Ppl_Incomenum']]);
+                $data=array('Ppl_Incomenum'=>$incomesobj[$income['Ppl_IncomeGroup']]);
             }
             
-            $this->db->where('Ppl_id', $calling['Ppl_Id']);
+            $this->db->where('Ppl_id', $income['Ppl_Id']);
             $this->db->update('peoplesample', $data);
         }
     }

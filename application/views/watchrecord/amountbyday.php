@@ -8,7 +8,7 @@ $data=array();
 foreach($days as $day=>$amount){
  $data[]=$amount;
 }
-
+echo json_encode($data); 
 ?>
 <script>
 
@@ -16,12 +16,58 @@ foreach($days as $day=>$amount){
 $(function () {    
     $("#submit").click(function(){
         $.ajax({
-        url:'http://127.0.0.1/zpwork/index.php/watchrecord/byoptions',
+        url:'http://localhost/zpwork/index.php/watchrecord/byoptions',
         data:$('form').serialize(),
-        type:"get"
-   });
+        type:"get",
+        success:function(data){
+            
+        $('#chart').highcharts({
+            chart: {
+                type: 'line',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: '每日开机人数图',
+                x: -20 //center
+            },
+          
+            xAxis: {
+                categories: ['2', '3', '4', '5', '6',
+                    '7', '8', '9', '10', '11', '12','13','14','15','16','17','18'
+                ,'19','20','21','22','23','24','25','26','27','28','29','30']
+            },
+            yAxis: {
+                title: {
+                    text: '开机人数'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: '人'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0
+            },
+            series: [{
+                name: '人数',
+                data: data
+            }
+            ]
+        });
+        }}
+   )});
        
-    });
+  
         $('#chart').highcharts({
             chart: {
                 type: 'line',
@@ -72,13 +118,14 @@ $(function () {
             <form onsubmit="return false">
                 <div>曲线特征：</div>
                 <div>收入：
-                    <select name="Ppl_IncomeGroup">
+                    <select name="Ppl_Incomenum">
                         <option value="1">1000元以下</option>
                         <option value="2">1001-2000元</option>
                         <option value="3">2001-3000元</option>
                         <option value="4">3001-5000元</option>
                         <option value="5">5001-8000元</option>
                         <option value="6">8000元以上</option>
+                        <option value="7">不限</option>
                         <option value="-1">其它</option>
                     </select>
                 </div>
@@ -89,8 +136,8 @@ $(function () {
                 </div>
                 <div>
                 性别:
-                    <input name='Ppl_sex' type='checkbox' value='male'/>男
-                    <input name='Ppl_sex' type='checkbox' value='female'/>女
+                    <input name='Ppl_sex' type='checkbox' value='男'/>男
+                    <input name='Ppl_sex' type='checkbox' value='女'/>女
                 </div>
                 <div>
                 职业类别：
