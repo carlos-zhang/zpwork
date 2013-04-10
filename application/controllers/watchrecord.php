@@ -125,7 +125,12 @@ class WatchRecord extends CI_Controller {
 //        $age_low =$_GET['age-low'];
 //        $age_high=$_GET['age-high'];
         $options=$_GET;
-        echo  json_encode($this->totalpeoplebydayandoptions($options));
+        $datas=$this->totalpeoplebydayandoptions($options);
+        $result=array();
+        foreach ($datas as $data){
+            $result[]=$data;
+        }
+        echo  json_encode($result);
        
 //        $data['title'] = '每日开机人数';
 //        $this->load->view('templates/header', $data);

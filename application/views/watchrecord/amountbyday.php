@@ -19,6 +19,7 @@ $(function () {
         url:'http://localhost/zpwork/index.php/watchrecord/byoptions',
         data:$('form').serialize(),
         type:"get",
+        dataType:"json",
         success:function(data){
             
         $('#chart').highcharts({
