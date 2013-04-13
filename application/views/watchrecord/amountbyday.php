@@ -8,7 +8,7 @@ $data=array();
 foreach($days as $day=>$amount){
  $data[]=$amount;
 }
-echo json_encode($data); 
+
 ?>
 <script>
 
@@ -16,7 +16,7 @@ echo json_encode($data);
 $(function () {    
     $("#submit").click(function(){
         $.ajax({
-        url:'http://localhost/zpwork/index.php/watchrecord/byoptions',
+        url:'http://127.0.0.1/zpwork/index.php/watchrecord/byoptions',
         data:$('form').serialize(),
         type:"get",
         dataType:"json",
@@ -117,7 +117,7 @@ $(function () {
     <div class="main">
         <div id="options">
             <form onsubmit="return false">
-                <div>曲线特征：</div>
+                <div>人群特征：</div>
                 <div>收入：
                     <select name="Ppl_Incomenum">
                         <option value="1">1000元以下</option>

@@ -47,20 +47,48 @@ class WatchRecord_model extends CI_Model {
         return $result;
     }
 	
-	
-    public function get_amountBytime_2($i) {
-		$dayTime = strtotime('2011-03-01 00:00:00');
+    
+////////////得到一天之中开机的人的id//////////////////////	
+    public function get_amountBytime_2($i,$options) {
+		$dayTime = strtotime('2011-03-02 00:00:00');
 		$this->db->distinct();
 		$this->db->select('WR_PplID');
 		$this->db->from('watchrecordpeoplesample');
-		$this->db->where('WR_BeginTime >=', $dayTime + $i * 24 * 60 * 60);
-		$this->db->where('WR_BeginTime < ', $dayTime + ($i + 1) * 24 * 60 * 60);
+                $this->db->join('peoplesample', 'watchrecordpeoplesample.WR_PplID = peoplesample.Ppl_ID');
+
+		$this->db->where('watchrecordpeoplesample.WR_BeginTime >=', $dayTime + $i * 24 * 60 * 60);
+		$this->db->where('watchrecordpeoplesample.WR_BeginTime < ', $dayTime + ($i + 1) * 24 * 60 * 60);
+                
+                 if(count($options)>0){
+             
+                    foreach ($options as $key=>$name){
+                       
+                        if($name!=''){
+                            if($key=='Ppl_Incomenum'&&$name==7)
+                                                                continue;
+                            if($key=='age-low'){
+                            $this->db->where('peoplesample.Ppl_age >=',$name);
+                                                        continue;
+                        }
+                        if($key=='age-high'){
+                            $this->db->where('peoplesample.Ppl_age <',$name);
+                            continue;
+                        }
+                        if($key=='job'){
+                            $this->db->where_in('peoplesample.Ppl_Callingnum',$name);
+                            continue;
+                        }
+                        $this->db->where('peoplesample.'.$key.' =', $name);
+                        }
+                      
+                    }
+                }
 		$peopleIdArray = $this->db->get()->result_array();
 		return $peopleIdArray;
     }
-	
+	//////////////////一天之中开机人的最早开机时间/////////////////
 	public function get_open_time_by_day_and_people($i, $people_id) {
-		$dayTime = strtotime('2011-03-01 00:00:00');
+		$dayTime = strtotime('2011-03-02 00:00:00');
 		$this->db->select('WR_BeginTime');
 		$this->db->from('watchrecordpeoplesample');
 		$this->db->where('WR_PplID =', $people_id);
@@ -87,7 +115,7 @@ class WatchRecord_model extends CI_Model {
 		$this->db->distinct();
 		$this->db->select('WR_PplID');
 
-        $this->db->from('watchrecordpeoplesample');
+                $this->db->from('watchrecordpeoplesample');
 		$this->db->join('peoplesample', 'watchrecordpeoplesample.WR_PplID = peoplesample.Ppl_ID');
 		$this->db->where('watchrecordpeoplesample.WR_BeginTime >=', $dayTime);
 		$this->db->where('watchrecordpeoplesample.WR_BeginTime <', $dayTime + 24 * 60 * 60);
@@ -126,11 +154,11 @@ class WatchRecord_model extends CI_Model {
         $birthdays=$this->db->get()->result_array();
         $now=  strtotime('2013-4-9');
         foreach ($birthdays as $birthday){
-            $age=2013-substr($birthday['Ppl_Birthday'], 0,4) ;
-         $data = array('Ppl_age' => $age);
+        $age=2013-substr($birthday['Ppl_Birthday'], 0,4) ;
+        $data = array('Ppl_age' => $age);
 
-$this->db->where('Ppl_id', $birthday['Ppl_Id']);
-$this->db->update('peoplesample', $data); 
+        $this->db->where('Ppl_id', $birthday['Ppl_Id']);
+        $this->db->update('peoplesample', $data); 
         }
             
     }
@@ -177,8 +205,7 @@ $this->db->update('peoplesample', $data);
             "2001-3000元"=>"3",
             "3001-5000元"=>"4",
             "5001-8000元"=>"5",
-            "8000元以上"=>"6",
-            
+            "8000元以上"=>"6",           
             "其它"=>"-1",
             );
         foreach ($incomes as $income){

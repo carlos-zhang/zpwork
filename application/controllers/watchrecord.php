@@ -139,19 +139,20 @@ class WatchRecord extends CI_Controller {
     }
 
     ////////////////////每时开机人数///////////////////////////////////////////////////////////////
-    public function totalpeoplebytime() {
+    public function totalpeoplebytime() { 
+        $options=$_GET;
         $peopleIdArray = array();
         $this->load->driver('cache');
         $is_cache_people_hour_per_day_json = $this->cache->file->get('people_hour_per_day');
-        if ($is_cache_people_hour_per_day_json) {
+        if ($is_cache_people_hour_per_day_json&&count($options)==0) {
             $people_hour_per_day_json = $is_cache_people_hour_per_day_json;
         } else {
             $is_cache_people_begin_time_by_day = $this->cache->file->get('people_begin_time_by_day');
-            if ($is_cache_people_begin_time_by_day) {
+            if ($is_cache_people_begin_time_by_day&&count($options)==0) {
                 $people_begin_time_by_day = $is_cache_people_begin_time_by_day;
             } else {
                 for ($i = 1; $i < 30; $i++) {
-                    $people_ids = $this->watchrecord_model->get_amountBytime_2($i);
+                    $people_ids = $this->watchrecord_model->get_amountBytime_2($i,$options);//得到一天之中开机的人的id
                     foreach ($people_ids as $k => $people_id) {
                         $peopleIdArray[$i][$people_id['WR_PplID']] = $this->watchrecord_model->get_open_time_by_day_and_people($i, $people_id['WR_PplID']);
                     }
@@ -162,7 +163,7 @@ class WatchRecord extends CI_Controller {
             $people_begin_time_by_day_array = json_decode($people_begin_time_by_day, true);
             $people_hour_per_day = array();
             foreach ($people_begin_time_by_day_array as $day => $people_ids) {
-                $baseDayTime = strtotime('2011-03-01 00:00:00');
+                $baseDayTime = strtotime('2011-03-02 00:00:00');
                 $dayTime = $baseDayTime + $day * 60 * 60 * 24;
                 $people_hour_per_day[] = $this->getPeopleOpenTimeByDay($dayTime, $people_ids);
             }
@@ -177,6 +178,10 @@ class WatchRecord extends CI_Controller {
                 $people_hour_array[$j] = isset($people_hour_array[$j]) ? $people_hour_array[$j] + $people_hour_per_day_array[$i][$j] : $people_hour_per_day_array[$i][$j];
             }
         }
+        if(count($options)>0){
+            echo json_encode($people_hour_array);
+        }
+        
         return $people_hour_array;
     }
 
@@ -188,6 +193,16 @@ class WatchRecord extends CI_Controller {
             ksort($result);
         }
         return $result;
+    }
+    
+ 
+    public function comparebyday(){
+        $this->load->view('templates/header');
+        $this->load->view('watchrecord/comparebyday');
+        $this->load->view('templates/footer');
+    }
+    public function comparebytime(){
+        
     }
 
     public function birthdaytoage(){
