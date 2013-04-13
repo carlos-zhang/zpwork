@@ -14,10 +14,7 @@
            $('.line-name').each(function(index){
                $(this).text("曲线"+(index+1)+":");
            })
-               
-      
         
-           
            var cancel=$("<button class='line-cancel'>取消曲线</button>");
             $('.line-name').last().after(cancel);
             $('.line-cancel').click(function() {            
@@ -33,9 +30,14 @@
         
         
          $("#submit").click(function(){
+         var req={};
+         $('.line').each(function(index){          
+             req[index]=$(this).serializeArray();           
+         })
+         
         $.ajax({
-        url:'http://127.0.0.1/zpwork/index.php/watchrecord/byoptions',
-        data:$('form').serializeArray(),
+        url:'http://127.0.0.1/zpwork/index.php/watchrecord/comparebydayandoptions',
+        data:req,
         type:"get",
         dataType:"json",
         success:function(data){
@@ -91,10 +93,9 @@
 </script>
 <div class="main">
     <div id="options">
-        <form onsubmit="return false">
             <div class="lines">
-                <div class="line">
-                    <div class="line-name">曲线1：</div>
+                <form class="line">
+                    <div class="line-name" >曲线1：</div>
                     
                     <div>收入：
                         <select name="Ppl_Incomenum">
@@ -115,8 +116,8 @@
                     </div>
                     <div>
                         性别:
-                        <input name='Ppl_sex' type='checkbox' value='男'/>男
-                        <input name='Ppl_sex' type='checkbox' value='女'/>女
+                        <input name='Ppl_Sex[]' type='checkbox' value='男'/>男
+                        <input name='Ppl_Sex[]' type='checkbox' value='女'/>女
                     </div>
                     <div>
                         职业类别：
@@ -137,13 +138,14 @@
                         <input name='job[]' type='checkbox' value='15'>广播电视/文化艺术
                         <input name='job[]' type='checkbox' value='16'>其它
                     </div>
-                </div>
+               
+                </form>
             </div>
             <div>
                 <button id='submit'>执行</button>
                 <button id='add'>增加曲线</button>
             </div>
-        </form>
+    
 
     </div>
 

@@ -137,8 +137,8 @@ $(function () {
                 </div>
                 <div>
                 性别:
-                    <input name='Ppl_sex' type='checkbox' value='男'/>男
-                    <input name='Ppl_sex' type='checkbox' value='女'/>女
+                    <input name='Ppl_Sex[]' type='checkbox' value='男'/>男
+                    <input name='Ppl_Sex[]' type='checkbox' value='女'/>女
                 </div>
                 <div>
                 职业类别：

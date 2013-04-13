@@ -125,6 +125,7 @@ class WatchRecord extends CI_Controller {
 //        $age_low =$_GET['age-low'];
 //        $age_high=$_GET['age-high'];
         $options=$_GET;
+       
         $datas=$this->totalpeoplebydayandoptions($options);
         $result=array();
         foreach ($datas as $data){
@@ -202,6 +203,46 @@ class WatchRecord extends CI_Controller {
         $this->load->view('templates/footer');
     }
     public function comparebytime(){
+       
+    }
+    public function comparebydayandoptions(){
+         $options=$_GET;
+         $job=array();
+         $Ppl_Sex=array();
+         $results=array();
+         foreach ($options as $option){
+//                    echo json_encode($options);
+                    $finaloption=array();
+                    foreach ($option as $opt){
+                        if(!strrpos($opt['name'], '[]')){
+                            $finaloption[$opt['name']]=$opt['value']; 
+                        }
+                        if (strrpos($opt['name'], 'Ppl_Sex')===0) {
+                            
+                           $Ppl_Sex[]=$opt['value'];
+                           $finaloption['Ppl_Sex']=$Ppl_Sex;
+                        }               
+                        if(strrpos($opt['name'],'job')===0){
+                            $job[]=$opt['value'];
+                            $finaloption['job']=$job;
+                        }
+                    }
+//                    echo json_encode($finaloption);
+                $datas=$this->totalpeoplebydayandoptions($finaloption);
+                $result=array();
+                foreach ($datas as $data){
+                 $result[]=$data;
+                }   
+                       $temp= str_replace(']', '}', json_encode($result));  
+            $results[]= str_replace('[', '{', json_encode($temp));  
+            
+         } 
+        
+        $temp1= str_replace('\"','',json_encode($results));
+        echo str_replace('"','',$temp1);
+        
+         
+        
         
     }
 
