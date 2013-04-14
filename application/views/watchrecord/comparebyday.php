@@ -79,22 +79,18 @@
                 y: 100,
                 borderWidth: 0
             },
-            series: [{
-                name: '人数',
-                data: data
-            }
-            ]
+            series: data
         });
         }}
    )})
-       
+      
     })
 
 </script>
 <div class="main">
     <div id="options">
             <div class="lines">
-                <form class="line">
+                <form class="line" onsubmit="return false">
                     <div class="line-name" >曲线1：</div>
                     
                     <div>收入：

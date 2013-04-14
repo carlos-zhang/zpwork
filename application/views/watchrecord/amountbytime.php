@@ -16,7 +16,7 @@
 $(function () {    
     $("#submit").click(function(){
         $.ajax({
-        url:'http://127.0.0.1/zpwork/index.php/watchrecord/totalpeoplebytime',
+        url:'http://127.0.0.1/zpwork/index.php/watchrecord/bytimeandoptions',
         data:$('form').serialize(),
         type:"get",
         dataType:"json",
@@ -119,14 +119,15 @@ $(function () {
             <form onsubmit="return false">
                 <div>人群特征：</div>
                 <div>收入：
-                    <select name="Ppl_Incomenum">
+                    <select name="Ppl_Incomenum"> 
+                        <option value="7">不限</option>
                         <option value="1">1000元以下</option>
                         <option value="2">1001-2000元</option>
                         <option value="3">2001-3000元</option>
                         <option value="4">3001-5000元</option>
                         <option value="5">5001-8000元</option>
                         <option value="6">8000元以上</option>
-                        <option value="7">不限</option>
+                       
                         <option value="-1">其它</option>
                     </select>
                 </div>
@@ -137,8 +138,8 @@ $(function () {
                 </div>
                 <div>
                 性别:
-                    <input name='Ppl_sex' type='checkbox' value='男'/>男
-                    <input name='Ppl_sex' type='checkbox' value='女'/>女
+                    <input name='Ppl_Sex[]' type='checkbox' value='男'/>男
+                    <input name='Ppl_Sex[]' type='checkbox' value='女'/>女
                 </div>
                 <div>
                 职业类别：

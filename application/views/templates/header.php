@@ -22,8 +22,8 @@ $this->load->helper('url');
             <h2>收视数据图表分析</h2>
             <li><a href="http://127.0.0.1/zpwork/watchrecord/byday">每日开机</a></li>
             <li><a href="http://127.0.0.1/zpwork/watchrecord/bytime">每时开机</a></li>
-            <li><a>每日对比</a></li>
-            <li><a>每时对比</a></li>
+            <li><a href="http://127.0.0.1/zpwork/watchrecord/comparebyday">每日对比</a></li>
+            <li><a href="http://127.0.0.1/zpwork/watchrecord/comparebytime">每时对比</a></li>
 
         </ul>
         <ul>

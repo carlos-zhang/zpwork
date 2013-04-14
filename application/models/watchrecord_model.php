@@ -60,13 +60,14 @@ class WatchRecord_model extends CI_Model {
 		$this->db->where('watchrecordpeoplesample.WR_BeginTime < ', $dayTime + ($i + 1) * 24 * 60 * 60);
                 
                  if(count($options)>0){
-             
+                 
                     foreach ($options as $key=>$name){
                        
                         if($name!=''){
                             if($key=='Ppl_Incomenum'&&$name==7)
                                                                 continue;
                             if($key=='age-low'){
+                                
                             $this->db->where('peoplesample.Ppl_age >=',$name);
                                                         continue;
                         }
@@ -74,8 +75,17 @@ class WatchRecord_model extends CI_Model {
                             $this->db->where('peoplesample.Ppl_age <',$name);
                             continue;
                         }
-                        if($key=='job'){
-                            $this->db->where_in('peoplesample.Ppl_Callingnum',$name);
+                         if($key=='job'){
+                            
+                                $this->db->where_in('peoplesample.Ppl_Callingnum',$name); 
+                            
+                           
+                            continue;
+                        }
+                        if($key=='Ppl_Sex'){
+                          
+                               $this->db->where_in('peoplesample.Ppl_Sex',$name);                         
+                            
                             continue;
                         }
                         $this->db->where('peoplesample.'.$key.' =', $name);
