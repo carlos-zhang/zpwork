@@ -13,7 +13,7 @@
             
            $('.line-name').each(function(index){
                $(this).text("曲线"+(index+1)+":");
-           })
+           });
         
            var cancel=$("<button class='line-cancel'>取消曲线</button>");
             $('.line-name').last().after(cancel);
@@ -21,11 +21,11 @@
             $(this).parents('.line').remove(); 
              $('.line-name').each(function(index){
                $(this).text("曲线"+(index+1)+":");
-           })
+           });
              
             
-        })
-        })
+        });
+        });
         
         
         
@@ -33,7 +33,7 @@
          var req={};
          $('.line').each(function(index){          
              req[index]=$(this).serializeArray();           
-         })
+         });
          
         $.ajax({
         url:'http://127.0.0.1/zpwork/index.php/watchrecord/comparebytimeandoptions',
@@ -82,7 +82,7 @@
             series: data
         });
         }}
-   )})
+   );});
       
     })
 

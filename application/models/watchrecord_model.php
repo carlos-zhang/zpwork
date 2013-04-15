@@ -238,6 +238,6 @@ class WatchRecord_model extends CI_Model {
             $this->db->update('peoplesample', $data);
         }
     }
-
+    
 }
 ?>

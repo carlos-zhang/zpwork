@@ -7,6 +7,8 @@
 
 class WatchRecord extends CI_Controller {
 
+   
+
     public function __construct() {
         parent::__construct();
         $this->load->model('watchrecord_model');
@@ -30,9 +32,9 @@ class WatchRecord extends CI_Controller {
    
 
     /////////产生日期//////////////////////////////////////////////////
-    public function generateday($year, $month) {
+    public function generateday($year, $month,$daystart=1,$dayend=30) {
         $array = array();
-        for ($i = 1; $i < 30; $i++) {
+        for ($i = $daystart; $i < $dayend; $i++) {
             $array[] = $year . '-' . $month . '-' . ($i + 1);
         }
 
@@ -112,6 +114,13 @@ class WatchRecord extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
+      public function byweek(){
+            $data['time'] = $this->totalpeoplebyweek();
+        $data['title'] = '每周开机人数';
+        $this->load->view('templates/header', $data);
+        $this->load->view('watchrecord/amountbytime');
+        $this->load->view('templates/footer');
+    }
     public function bygender() {
         $data['days'] = $this->totalpeoplebydayandsex();
         $data['title'] = '按性别每日开机人数';
@@ -197,8 +206,24 @@ class WatchRecord extends CI_Controller {
         }
         return $result;
     }
-    
- 
+    public function totalpeoplebyweek(){
+        $options=$_GET;
+        $days = $this->generateday(2011, 3,5,27);
+        $result = array();
+        foreach ($days as $day) {
+            $daytime = strtotime($day);
+                        
+         $result[date('w',$daytime)]= isset( $result[date('w',$daytime)])?$result[date('w',$daytime)]+$this->watchrecord_model->get_amountBydayandoptions($daytime,$options):$this->watchrecord_model->get_amountByday($daytime);
+          
+        }
+        if($options>0){
+            echo json_encode($result);
+        }
+            else {
+                return json_encode($result);
+                
+            }
+    }
     public function comparebyday(){
         $data['title']="每日开机对比";
         $this->load->view('templates/header',$data);
