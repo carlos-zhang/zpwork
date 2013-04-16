@@ -1,13 +1,10 @@
 ﻿<?php
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 class WatchRecord extends CI_Controller {
-
-   
 
     public function __construct() {
         parent::__construct();
@@ -19,7 +16,7 @@ class WatchRecord extends CI_Controller {
         $data['watchrecords'] = $this->watchrecord_model->get_watchrecords();
         $data['wr_begin'] = $this->watchrecord_model->get_wr_begin();
         $data['title'] = "收视记录";
-        $this->load->view('templates/header',$data);
+        $this->load->view('templates/header', $data);
         $this->load->view('watchrecord/test');
         $this->load->view('templates/footer');
     }
@@ -29,10 +26,9 @@ class WatchRecord extends CI_Controller {
         // $data['watchrecords'] = $this->watchrecord_model->get_watchrecords();
         $this->load->view('watchrecord/converttest');
     }
-   
 
     /////////产生日期//////////////////////////////////////////////////
-    public function generateday($year, $month,$daystart=1,$dayend=30) {
+    public function generateday($year, $month, $daystart = 1, $dayend = 30) {
         $array = array();
         for ($i = $daystart; $i < $dayend; $i++) {
             $array[] = $year . '-' . $month . '-' . ($i + 1);
@@ -114,13 +110,14 @@ class WatchRecord extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
-      public function byweek(){
-            $data['time'] = $this->totalpeoplebyweek();
+    public function byweek() {
+        $data['time'] = $this->totalpeoplebyweek();
         $data['title'] = '每周开机人数';
         $this->load->view('templates/header', $data);
-        $this->load->view('watchrecord/amountbytime');
+        $this->load->view('watchrecord/amountbyweek');
         $this->load->view('templates/footer');
     }
+
     public function bygender() {
         $data['days'] = $this->totalpeoplebydayandsex();
         $data['title'] = '按性别每日开机人数';
@@ -129,32 +126,34 @@ class WatchRecord extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
-    public function byoptions() {;
+    public function byoptions() {
+;
 //        $incomegroup=$_GET['incomegroup'];
 //        $age_low =$_GET['age-low'];
 //        $age_high=$_GET['age-high'];
-        $options=$_GET;
-       
-        $datas=$this->totalpeoplebydayandoptions($options);
-        $result=array();
-        foreach ($datas as $data){
-            $result[]=$data;
+        $options = $_GET;
+
+        $datas = $this->totalpeoplebydayandoptions($options);
+        $result = array();
+        foreach ($datas as $data) {
+            $result[] = $data;
         }
-        echo  json_encode($result);
-       
+        echo json_encode($result);
+
 //        $data['title'] = '每日开机人数';
 //        $this->load->view('templates/header', $data);
 //        $this->load->view('watchrecord/amountbyday');
 //        $this->load->view('templates/footer');
     }
-    public function bytimeandoptions(){
-           $options=$_GET;
-           echo json_encode($this->totalpeoplebytime($options));
+
+    public function bytimeandoptions() {
+        $options = $_GET;
+        echo json_encode($this->totalpeoplebytime($options));
     }
 
     ////////////////////每时开机人数///////////////////////////////////////////////////////////////
-    public function totalpeoplebytime($options=array()) { 
-     
+    public function totalpeoplebytime($options = array()) {
+
         $peopleIdArray = array();
         $this->load->driver('cache');
         $is_cache_people_hour_per_day_json = $this->cache->file->get('people_hour_per_day');
@@ -166,7 +165,7 @@ class WatchRecord extends CI_Controller {
                 $people_begin_time_by_day = $is_cache_people_begin_time_by_day;
             } else {
                 for ($i = 1; $i < 30; $i++) {
-                    $people_ids = $this->watchrecord_model->get_amountBytime_2($i,$options);//得到一天之中开机的人的id
+                    $people_ids = $this->watchrecord_model->get_amountBytime_2($i, $options); //得到一天之中开机的人的id
                     foreach ($people_ids as $k => $people_id) {
                         $peopleIdArray[$i][$people_id['WR_PplID']] = $this->watchrecord_model->get_open_time_by_day_and_people($i, $people_id['WR_PplID']);
                     }
@@ -192,8 +191,8 @@ class WatchRecord extends CI_Controller {
                 $people_hour_array[$j] = isset($people_hour_array[$j]) ? $people_hour_array[$j] + $people_hour_per_day_array[$i][$j] : $people_hour_per_day_array[$i][$j];
             }
         }
-      
-        
+
+
         return $people_hour_array;
     }
 
@@ -206,128 +205,134 @@ class WatchRecord extends CI_Controller {
         }
         return $result;
     }
-    public function totalpeoplebyweek(){
-        $options=$_GET;
-        $days = $this->generateday(2011, 3,5,27);
+
+    public function totalpeoplebyweek() {
+        $options = $_GET;
+        $days = $this->generateday(2011, 3, 5, 27);
         $result = array();
         foreach ($days as $day) {
             $daytime = strtotime($day);
-                        
-         $result[date('w',$daytime)]= isset( $result[date('w',$daytime)])?$result[date('w',$daytime)]+$this->watchrecord_model->get_amountBydayandoptions($daytime,$options):$this->watchrecord_model->get_amountByday($daytime);
-          
+
+            $result[date('w', $daytime)] = isset($result[date('w', $daytime)]) ? $result[date('w', $daytime)] + $this->watchrecord_model->get_amountBydayandoptions($daytime, $options) : $this->watchrecord_model->get_amountBydayandoptions($daytime, $options);
         }
-        if($options>0){
+        if (count($options) > 0) {
+
             echo json_encode($result);
+        } else {
+            return json_encode($result);
         }
-            else {
-                return json_encode($result);
-                
-            }
     }
-    public function comparebyday(){
-        $data['title']="每日开机对比";
-        $this->load->view('templates/header',$data);
+
+    public function comparebyday() {
+        $data['title'] = "每日开机对比";
+        $this->load->view('templates/header', $data);
         $this->load->view('watchrecord/comparebyday');
         $this->load->view('templates/footer');
     }
-    public function comparebytime(){
-        $data['title']="每时开机对比";
-        $this->load->view('templates/header',$data);
+
+    public function comparebytime() {
+        $data['title'] = "每时开机对比";
+        $this->load->view('templates/header', $data);
         $this->load->view('watchrecord/comparebytime');
         $this->load->view('templates/footer');
     }
-    public function comparebydayandoptions(){
-         $options=$_GET;
-         $job=array();
-         $Ppl_Sex=array();
-         $results=array();
-         $finalresults=array();
-         foreach ($options as $key=>$option){
-         
-                    $finaloption=array();
-                    foreach ($option as $opt){
-                        if(!strrpos($opt['name'], '[]')){
-                            $finaloption[$opt['name']]=$opt['value']; 
-                        }
-                        if (strrpos($opt['name'], 'Ppl_Sex')===0) {
-                            
-                           $Ppl_Sex[]=$opt['value'];
-                           $finaloption['Ppl_Sex']=$Ppl_Sex;
-                        }               
-                        if(strrpos($opt['name'],'job')===0){
-                            $job[]=$opt['value'];
-                            $finaloption['job']=$job;
-                        }
-                    }
-                  
-                $datas=$this->totalpeoplebydayandoptions($finaloption);
-                $result=array();
-            
-                foreach ($datas as $data){
-                 $result[]=$data;
-                }   
-               $results["data"]=$result;
-               $results["name"]="曲线".($key+1);
-               $finalresults[]=$results;
-               
-            
-         } 
+
+    public function comparebydayandoptions() {
+        $options = $_GET;
+        $job = array();
+        $Ppl_Sex = array();
+        $results = array();
+        $finalresults = array();
+        foreach ($options as $key => $option) {
+
+            $finaloption = array();
+            foreach ($option as $opt) {
+                if (!strrpos($opt['name'], '[]')) {
+                    $finaloption[$opt['name']] = $opt['value'];
+                }
+                if (strrpos($opt['name'], 'Ppl_Sex') === 0) {
+
+                    $Ppl_Sex[] = $opt['value'];
+                    $finaloption['Ppl_Sex'] = $Ppl_Sex;
+                }
+                if (strrpos($opt['name'], 'job') === 0) {
+                    $job[] = $opt['value'];
+                    $finaloption['job'] = $job;
+                }
+            }
+
+            $datas = $this->totalpeoplebydayandoptions($finaloption);
+            $result = array();
+
+            foreach ($datas as $data) {
+                $result[] = $data;
+            }
+            $results["data"] = $result;
+            $results["name"] = "曲线" . ($key + 1);
+            $finalresults[] = $results;
+        }
 
 
 
-         echo json_encode($finalresults);
-        
-         
-        
-        
+        echo json_encode($finalresults);
     }
-     public function comparebytimeandoptions(){
-             $options=$_GET;
-         $job=array();
-         $Ppl_Sex=array();
-         $results=array();
-         $finalresults=array();
-         foreach ($options as $key=>$option){
-         
-                    $finaloption=array();
-                    foreach ($option as $opt){
-                        if(!strrpos($opt['name'], '[]')){
-                            $finaloption[$opt['name']]=$opt['value']; 
-                        }
-                        if (strrpos($opt['name'], 'Ppl_Sex')===0) {
-                            
-                           $Ppl_Sex[]=$opt['value'];
-                           $finaloption['Ppl_Sex']=$Ppl_Sex;
-                        }               
-                        if(strrpos($opt['name'],'job')===0){
-                            $job[]=$opt['value'];
-                            $finaloption['job']=$job;
-                        }
-                    }
-                
-                $datas=$this->totalpeoplebytime($finaloption);
-                $result=array();
-            
-                foreach ($datas as $data){
-                 $result[]=$data;
-                }   
-               $results["data"]=$result;
-               $results["name"]="曲线".($key+1);
-               $finalresults[]=$results;            
-         } 
-         echo json_encode($finalresults);     
-         }
 
-    public function birthdaytoage(){
+    public function comparebytimeandoptions() {
+        $options = $_GET;
+        $job = array();
+        $Ppl_Sex = array();
+        $results = array();
+        $finalresults = array();
+        foreach ($options as $key => $option) {
+
+            $finaloption = array();
+            foreach ($option as $opt) {
+                if (!strrpos($opt['name'], '[]')) {
+                    $finaloption[$opt['name']] = $opt['value'];
+                }
+                if (strrpos($opt['name'], 'Ppl_Sex') === 0) {
+
+                    $Ppl_Sex[] = $opt['value'];
+                    $finaloption['Ppl_Sex'] = $Ppl_Sex;
+                }
+                if (strrpos($opt['name'], 'job') === 0) {
+                    $job[] = $opt['value'];
+                    $finaloption['job'] = $job;
+                }
+            }
+
+            $datas = $this->totalpeoplebytime($finaloption);
+            $result = array();
+
+            foreach ($datas as $data) {
+                $result[] = $data;
+            }
+            $results["data"] = $result;
+            $results["name"] = "曲线" . ($key + 1);
+            $finalresults[] = $results;
+        }
+        echo json_encode($finalresults);
+    }
+
+    public function birthdaytoage() {
         $this->watchrecord_model->birthdaytoage();
     }
-    public function  callingtonum(){
+
+    public function callingtonum() {
         $this->watchrecord_model->callingtonumber();
     }
-     public function  incometonum(){
+
+    public function incometonum() {
         $this->watchrecord_model->incometonumber();
     }
-    
-}
 
+    public function openrecomment() {
+        $data['days'] = $this->totalpeoplebydayandsex();
+        $data['title'] = '开机广告推荐';
+        $this->load->view('templates/header', $data);
+        $this->load->view('watchrecord/openrecomment');
+        $this->load->view('templates/footer');
+    }
+
+}
 
