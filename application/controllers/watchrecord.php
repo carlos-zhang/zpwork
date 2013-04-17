@@ -111,6 +111,7 @@ class WatchRecord extends CI_Controller {
     }
 
     public function byweek() {
+         $options = $_GET;
         $data['time'] = $this->totalpeoplebyweek();
         $data['title'] = '每周开机人数';
         $this->load->view('templates/header', $data);
@@ -147,7 +148,7 @@ class WatchRecord extends CI_Controller {
     }
 
     public function bytimeandoptions() {
-        $options = $_GET;
+
         echo json_encode($this->totalpeoplebytime($options));
     }
 
@@ -327,11 +328,19 @@ class WatchRecord extends CI_Controller {
     }
 
     public function openrecomment() {
-        $data['days'] = $this->totalpeoplebydayandsex();
+       // $data['days'] = $this->open_recomment();
         $data['title'] = '开机广告推荐';
         $this->load->view('templates/header', $data);
         $this->load->view('watchrecord/openrecomment');
         $this->load->view('templates/footer');
+    }
+    
+    function open_recomment(){
+        $options=$_GET;
+        $time_result_array =  $this->totalpeoplebytime($options);
+        $week_result_array = $this->totalpeoplebyweek();
+        $option_people_num = $this->watchrecord_model->get_option_peoplenum($options);
+        echo json_encode($option_people_num);
     }
 
 }
