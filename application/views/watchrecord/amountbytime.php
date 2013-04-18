@@ -15,8 +15,9 @@
 
 $(function () {    
     $("#submit").click(function(){
+alert("dian");
         $.ajax({
-        url:'http://127.0.0.1/zpwork/index.php/watchrecord/bytimeandoptions',
+        url:'http://127.0.0.1/zpwork/index.php/watchrecord/bytimeandoptions/type=2',
         data:$('form').serialize(),
         type:"get",
         dataType:"json",
@@ -160,6 +161,7 @@ $(function () {
                  <input name='job[]' type='checkbox' value='15'>广播电视/文化艺术
                  <input name='job[]' type='checkbox' value='16'>其它
                 </div>
+               
                 <div>
                  <button id='submit'>执行</button>
                 </div>

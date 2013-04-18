@@ -111,7 +111,7 @@ class WatchRecord extends CI_Controller {
     }
 
     public function byweek() {
-         $options = $_GET;
+        $options = $_GET;
         $data['time'] = $this->totalpeoplebyweek();
         $data['title'] = '每周开机人数';
         $this->load->view('templates/header', $data);
@@ -128,7 +128,7 @@ class WatchRecord extends CI_Controller {
     }
 
     public function byoptions() {
-;
+        ;
 //        $incomegroup=$_GET['incomegroup'];
 //        $age_low =$_GET['age-low'];
 //        $age_high=$_GET['age-high'];
@@ -207,7 +207,7 @@ class WatchRecord extends CI_Controller {
         return $result;
     }
 
-    public function totalpeoplebyweek() {
+    public function totalpeoplebyweek($options, $type = 1) {
         $options = $_GET;
         $days = $this->generateday(2011, 3, 5, 27);
         $result = array();
@@ -216,9 +216,11 @@ class WatchRecord extends CI_Controller {
 
             $result[date('w', $daytime)] = isset($result[date('w', $daytime)]) ? $result[date('w', $daytime)] + $this->watchrecord_model->get_amountBydayandoptions($daytime, $options) : $this->watchrecord_model->get_amountBydayandoptions($daytime, $options);
         }
-        if (count($options) > 0) {
+        if ($type == 2) {
 
             echo json_encode($result);
+        } else if ($type == 3) {
+            return $result;
         } else {
             return json_encode($result);
         }
@@ -328,19 +330,32 @@ class WatchRecord extends CI_Controller {
     }
 
     public function openrecomment() {
-       // $data['days'] = $this->open_recomment();
+        // $data['days'] = $this->open_recomment();
         $data['title'] = '开机广告推荐';
         $this->load->view('templates/header', $data);
         $this->load->view('watchrecord/openrecomment');
         $this->load->view('templates/footer');
     }
-    
-    function open_recomment(){
-        $options=$_GET;
-        $time_result_array =  $this->totalpeoplebytime($options);
-        $week_result_array = $this->totalpeoplebyweek();
+
+    function open_recomment() {
+
+        $options = $_GET;
+        $time_option_result_array = $this->totalpeoplebytime($options);
+        $week_option_result_array = $this->totalpeoplebyweek($options, $type = 3);
+        $time_result_array = array(336, 106, 66, 112, 181, 51, 48, 49, 56, 104, 90, 89, 68, 44, 35, 11, 54, 5, 3, 0, 6, 8, 83, 131);
+        $week_result_array = array(270, 168, 170, 138, 160, 176, 191);
         $option_people_num = $this->watchrecord_model->get_option_peoplenum($options);
-        echo json_encode($option_people_num);
+        $max_option_week = array(array_search(max($week_option_result_array),$week_option_result_array)=>max($week_option_result_array));
+        $max_option_time = array(array_search(max($time_option_result_array),$time_option_result_array)=>  max($time_option_result_array));
+        echo json_encode($max_option_week,JSON_FORCE_OBJECT);
+        echo json_encode($max_option_time,JSON_FORCE_OBJECT);
+//        echo max($time_option_result_array);
+//        echo max($week_option_result_array);
+//        echo var_dump(array_search(max($time_option_result_array), $time_option_result_array));
+//        echo var_dump(array_search(max($week_option_result_array), $week_option_result_array));
+//        echo max($week_result_array);  
+//        echo array_search(max($week_result_array), $week_result_array);
+//        echo json_encode($option_people_num);
     }
 
 }
