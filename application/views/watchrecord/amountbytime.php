@@ -15,9 +15,9 @@
 
 $(function () {    
     $("#submit").click(function(){
-alert("dian");
+
         $.ajax({
-        url:'http://127.0.0.1/zpwork/index.php/watchrecord/bytimeandoptions/type=2',
+        url:'http://127.0.0.1/zpwork/index.php/watchrecord/bytimeandoptions/',
         data:$('form').serialize(),
         type:"get",
         dataType:"json",
@@ -35,9 +35,9 @@ alert("dian");
             },
           
             xAxis: {
-                categories: ['2', '3', '4', '5', '6',
+                categories: ['0','1','2', '3', '4', '5', '6',
                     '7', '8', '9', '10', '11', '12','13','14','15','16','17','18'
-                ,'19','20','21','22','23','24','25','26','27','28','29','30']
+                ,'19','20','21','22','23','24']
             },
             yAxis: {
                 title: {
@@ -82,9 +82,9 @@ alert("dian");
             },
           
             xAxis: {
-                categories: ['2', '3', '4', '5', '6',
+               categories: ['0','1','2', '3', '4', '5', '6',
                     '7', '8', '9', '10', '11', '12','13','14','15','16','17','18'
-                ,'19','20','21','22','23','24','25','26','27','28','29','30']
+                ,'19','20','21','22','23','24']
             },
             yAxis: {
                 title: {
@@ -161,7 +161,7 @@ alert("dian");
                  <input name='job[]' type='checkbox' value='15'>广播电视/文化艺术
                  <input name='job[]' type='checkbox' value='16'>其它
                 </div>
-               
+<!--                 <input name="type" value="2" type="hidden">-->
                 <div>
                  <button id='submit'>执行</button>
                 </div>

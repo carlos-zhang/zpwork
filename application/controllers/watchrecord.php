@@ -148,7 +148,7 @@ class WatchRecord extends CI_Controller {
     }
 
     public function bytimeandoptions() {
-
+            $options=$_GET;
         echo json_encode($this->totalpeoplebytime($options));
     }
 
@@ -345,10 +345,19 @@ class WatchRecord extends CI_Controller {
         $time_result_array = array(336, 106, 66, 112, 181, 51, 48, 49, 56, 104, 90, 89, 68, 44, 35, 11, 54, 5, 3, 0, 6, 8, 83, 131);
         $week_result_array = array(270, 168, 170, 138, 160, 176, 191);
         $option_people_num = $this->watchrecord_model->get_option_peoplenum($options);
-        $max_option_week = array(array_search(max($week_option_result_array),$week_option_result_array)=>max($week_option_result_array));
-        $max_option_time = array(array_search(max($time_option_result_array),$time_option_result_array)=>  max($time_option_result_array));
-        echo json_encode($max_option_week,JSON_FORCE_OBJECT);
-        echo json_encode($max_option_time,JSON_FORCE_OBJECT);
+        $max_option_week_pos=array_search(max($week_option_result_array),$week_option_result_array);
+        $max_option_time_pos = array_search(max($time_option_result_array),$time_option_result_array);
+        $max_option_week = array($max_option_week_pos=>max($week_option_result_array));
+        $max_option_time = array($max_option_time_pos =>  max($time_option_result_array));
+        $week_support = $week_option_result_array[$max_option_week_pos]/$option_people_num;
+        $week_confindence = $week_option_result_array[$max_option_week_pos]/$week_result_array[$max_option_week_pos];
+        $time_support = $time_option_result_array[$max_option_time_pos]/$option_people_num;
+        $time_confindence = $time_option_result_array[$max_option_time_pos]/$time_result_array[$max_option_time_pos];
+        
+        $result=array("best_week"=>$max_option_week_pos,'best_time'=>$max_option_time_pos,'week_support'=>$week_support,
+            'time_support'=>$time_support,'week_confindence'=>$week_confindence,'time_confindence'=>$time_confindence);
+        echo json_encode($result,JSON_FORCE_OBJECT);
+   
 //        echo max($time_option_result_array);
 //        echo max($week_option_result_array);
 //        echo var_dump(array_search(max($time_option_result_array), $time_option_result_array));

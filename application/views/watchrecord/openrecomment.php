@@ -4,6 +4,15 @@
  * and open the template in the editor.
  */
 ?>
+<style>
+    #result{
+        float: left;
+    }
+    #result div{
+        margin: 30px;
+    } 
+    
+</style>
 <script>
    
     $(function() {
@@ -13,7 +22,28 @@
                    url: "http://127.0.0.1/zpwork/index.php/watchrecord/open_recomment",
                    data: $('form').serialize(),
                    type: "get",
-                   dataType: "json"
+                   dataType: "json",
+                   success:function(data){
+                      var categories=[ '星期天','星期一', '星期二', '星期三', '星期四', '星期五',
+                    '星期六'];   
+                   
+                      var fillin={
+                          "best_week":categories[data.best_week],
+                           "best_time":data.best_time,
+                           "week_confindence":data.week_confindence,
+                           "week_support":data.week_support,
+                           "time_confindence":data.time_confindence,
+                           "time_support":data.time_support
+                      }
+                     for (var key in fillin){
+                         
+                         $("#"+key).text(fillin[key]);
+                     }
+                   
+                      
+                
+                   }
+                    
                });
            })
     })
@@ -75,6 +105,13 @@
     </form>
 
 
-    <div id="chart"></div>
+    <div id="result">
+        <div>最佳投放日期:<span id="best_week"></span></div>
+        <div>最佳投放时间:<span id="best_time"></span></div>
+        <div>投放日期支持度:<span id="week_support"></span></div>
+        <div>投放时间支持度:<span id="time_support"></span></div>
+        <div>投放日期置信度:<span id="week_confindence"></span></div>
+        <div>投放时间置信度:<span id="time_confindence"></span></div>
+    </div>
 
 </div>
