@@ -120,6 +120,7 @@ class WatchRecord_model extends CI_Model {
     }
 
     public function get_amountBydayandoptions($dayTime, $options) {
+      
         $this->db->distinct();
         $this->db->select('WR_PplID');
 
@@ -163,6 +164,77 @@ class WatchRecord_model extends CI_Model {
         return $this->db->get()->num_rows();
     }
 
+    
+    
+    public function get_peoplewatch_channel_time($options,$channelID) {
+        
+           $channels=  $this->get_channel();
+
+        $this->db->from('watchrecordpeoplesample');
+        $this->db->join('peoplesample', 'watchrecordpeoplesample.WR_PplID = peoplesample.Ppl_ID');
+       
+        if (count($options) > 0) {
+
+            foreach ($options as $key => $name) {
+
+                if ($name != '') {
+                    if ($key == 'Ppl_Incomenum' && $name == 7)
+                        continue;
+                    if ($key == 'age-low') {
+                        $this->db->where('peoplesample.Ppl_age >=', $name);
+                        continue;
+                    }
+                    if ($key == 'age-high') {
+                        $this->db->where('peoplesample.Ppl_age <', $name);
+                        continue;
+                    }
+                    if ($key == 'job') {
+
+                        $this->db->where_in('peoplesample.Ppl_Callingnum', $name);
+
+
+                        continue;
+                    }
+                    if ($key == 'Ppl_Sex') {
+
+                        $this->db->where_in('peoplesample.Ppl_Sex', $name);
+
+                        continue;
+                    }
+                    $this->db->where('peoplesample.' . $key . ' =', $name);
+                }
+            }
+        }
+            if($type==10){
+                 $this->db->select_sum('WR_Time');
+                 echo json_encode($this->db->get()->result_array());die;
+                 return $this->db->get();
+            }
+            if($type==11){
+              
+                $result = array();
+                
+                foreach($channels as $channel){
+//                        $this->db->from('watchrecordpeoplesample');
+//                     $this->db->join('peoplesample', 'watchrecordpeoplesample.WR_PplID = peoplesample.Ppl_ID');
+                 ///   $this->db->from('watchrecordpeoplesample');
+                    $this->db->select_sum ('WR_Time');
+                    //$this->db->where('watchrecordpeoplesample.WR_ChlID',$channel["WR_ChlID"]);
+                    $result[$channel["WR_ChlID"]]=$this->db->get()->result();
+                }
+                   return $result; 
+            }
+            
+       
+    }
+    public function get_channel(){
+        $dba=$this->load->database("default",TRUE);
+        $dba->distinct();
+        $dba->select('WR_ChlID');
+        $dba->from('watchrecordpeoplesample');
+       
+        return $dba->get()->result_array();
+    }
     public function birthdaytoage() {
         $this->db->select('Ppl_Birthday');
         $this->db->select('Ppl_Id');
@@ -215,6 +287,10 @@ class WatchRecord_model extends CI_Model {
         }
         return $this->db->get()->num_rows();
     }
+    
+    
+    
+    
 
     public function callingtonumber() {
         $this->db->select('Ppl_Calling');

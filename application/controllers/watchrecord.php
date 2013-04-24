@@ -317,6 +317,9 @@ class WatchRecord extends CI_Controller {
         echo json_encode($finalresults);
     }
 
+    public function egpstatics(){
+        $this->watchrecord_model->get_peoplewatch_channel_time($options=array(),11);
+    }
     public function birthdaytoage() {
         $this->watchrecord_model->birthdaytoage();
     }
