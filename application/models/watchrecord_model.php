@@ -205,27 +205,18 @@ class WatchRecord_model extends CI_Model {
                 }
             }
         }
-            if($type==10){
-                 $this->db->select_sum('WR_Time');
-                 echo json_encode($this->db->get()->result_array());die;
-                 return $this->db->get();
-            }
-            if($type==11){
-              
-                $result = array();
-                
-                foreach($channels as $channel){
-//                        $this->db->from('watchrecordpeoplesample');
-//                     $this->db->join('peoplesample', 'watchrecordpeoplesample.WR_PplID = peoplesample.Ppl_ID');
-                 ///   $this->db->from('watchrecordpeoplesample');
-                    $this->db->select_sum ('WR_Time');
-                    //$this->db->where('watchrecordpeoplesample.WR_ChlID',$channel["WR_ChlID"]);
-                    $result[$channel["WR_ChlID"]]=$this->db->get()->result();
-                }
-                   return $result; 
-            }
+        if(isset($channelID))
+            $this->db->where('watchrecordpeoplesample.WR_ChlID',$channelID);
+        $this->db->select_sum ('WR_Time');
+        //echo json_encode($this->db->get()->result_array());
+        return $this->db->get()->result_array();
             
-       
+    }
+    
+    public function get_wholechannel(){
+        $this->db->select('Chl_ID','Chl_Des');
+        $this->db->from('channel');
+       return $this->db->get()->reuslut_array();
     }
     public function get_channel(){
         $dba=$this->load->database("default",TRUE);

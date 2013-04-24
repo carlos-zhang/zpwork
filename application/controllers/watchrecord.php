@@ -148,7 +148,7 @@ class WatchRecord extends CI_Controller {
     }
 
     public function bytimeandoptions() {
-            $options=$_GET;
+        $options = $_GET;
         echo json_encode($this->totalpeoplebytime($options));
     }
 
@@ -317,8 +317,56 @@ class WatchRecord extends CI_Controller {
         echo json_encode($finalresults);
     }
 
-    public function egpstatics(){
-        $this->watchrecord_model->get_peoplewatch_channel_time($options=array(),11);
+    public function epgstatics() {
+        $options = $_GET;
+        $job = array();
+        $Ppl_Sex = array();
+        $results = array();
+        $finalresults = array();
+        foreach ($options as $key => $option) {
+
+            $finaloption = array();
+            foreach ($option as $opt) {
+                if (!strrpos($opt['name'], '[]')) {
+                    $finaloption[$opt['name']] = $opt['value'];
+                }
+                if (strrpos($opt['name'], 'Ppl_Sex') === 0) {
+
+                    $Ppl_Sex[] = $opt['value'];
+                    $finaloption['Ppl_Sex'] = $Ppl_Sex;
+                }
+                if (strrpos($opt['name'], 'job') === 0) {
+                    $job[] = $opt['value'];
+                    $finaloption['job'] = $job;
+                }
+            }
+
+            $channels = $this->watchrecord_model->get_wholechannel();
+            $result = array();
+        foreach ($channels as $channel) {
+            $result[$channel["Chl_Des"]] = $this->watchrecord_model->get_peoplewatch_channel_time($finaloption, $channel["Chl_ID"]);
+        };
+            $tempresult = array();
+
+            foreach ($result as $ke=>$result) {
+                
+                $tempresult[] = $result[0]["WR_Time"];
+            }
+            $results["data"] = $tempresult;
+            $results["name"] = "条柱" . ($key + 1);
+            $finalresults[] = $results;
+        }
+        echo json_encode($finalresults);
+        
+        
+
+        
+    }
+    public function epgview(){
+        $data["title"]="EPG数据条形图";
+        $this->load->view("templates/header");
+        $this->load->view("watchrecord/epgstatics");
+        $this->load->view("templates/footer");
     }
     public function birthdaytoage() {
         $this->watchrecord_model->birthdaytoage();
@@ -348,19 +396,19 @@ class WatchRecord extends CI_Controller {
         $time_result_array = array(336, 106, 66, 112, 181, 51, 48, 49, 56, 104, 90, 89, 68, 44, 35, 11, 54, 5, 3, 0, 6, 8, 83, 131);
         $week_result_array = array(270, 168, 170, 138, 160, 176, 191);
         $option_people_num = $this->watchrecord_model->get_option_peoplenum($options);
-        $max_option_week_pos=array_search(max($week_option_result_array),$week_option_result_array);
-        $max_option_time_pos = array_search(max($time_option_result_array),$time_option_result_array);
-        $max_option_week = array($max_option_week_pos=>max($week_option_result_array));
-        $max_option_time = array($max_option_time_pos =>  max($time_option_result_array));
-        $week_support = $week_option_result_array[$max_option_week_pos]/$option_people_num;
-        $week_confindence = $week_option_result_array[$max_option_week_pos]/$week_result_array[$max_option_week_pos];
-        $time_support = $time_option_result_array[$max_option_time_pos]/$option_people_num;
-        $time_confindence = $time_option_result_array[$max_option_time_pos]/$time_result_array[$max_option_time_pos];
-        
-        $result=array("best_week"=>$max_option_week_pos,'best_time'=>$max_option_time_pos,'week_support'=>$week_support,
-            'time_support'=>$time_support,'week_confindence'=>$week_confindence,'time_confindence'=>$time_confindence);
-        echo json_encode($result,JSON_FORCE_OBJECT);
-   
+        $max_option_week_pos = array_search(max($week_option_result_array), $week_option_result_array);
+        $max_option_time_pos = array_search(max($time_option_result_array), $time_option_result_array);
+        $max_option_week = array($max_option_week_pos => max($week_option_result_array));
+        $max_option_time = array($max_option_time_pos => max($time_option_result_array));
+        $week_support = $week_option_result_array[$max_option_week_pos] / $option_people_num;
+        $week_confindence = $week_option_result_array[$max_option_week_pos] / $week_result_array[$max_option_week_pos];
+        $time_support = $time_option_result_array[$max_option_time_pos] / $option_people_num;
+        $time_confindence = $time_option_result_array[$max_option_time_pos] / $time_result_array[$max_option_time_pos];
+
+        $result = array("best_week" => $max_option_week_pos, 'best_time' => $max_option_time_pos, 'week_support' => $week_support,
+            'time_support' => $time_support, 'week_confindence' => $week_confindence, 'time_confindence' => $time_confindence);
+        echo json_encode($result, JSON_FORCE_OBJECT);
+
 //        echo max($time_option_result_array);
 //        echo max($week_option_result_array);
 //        echo var_dump(array_search(max($time_option_result_array), $time_option_result_array));
