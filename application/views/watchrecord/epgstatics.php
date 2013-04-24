@@ -46,21 +46,23 @@
             chart: {
                 type: 'column',
                 marginRight: 130,
-                marginBottom: 25
+                marginBottom: 25,
+                width:12000
+              
             },
             title: {
                 text: 'epg统计图',
                 x: -20 //center
             },
+            
           
             xAxis: {
-                categories: ['2', '3', '4', '5', '6',
-                    '7', '8', '9', '10', '11', '12','13','14','15','16','17','18'
-                ,'19','20','21','22','23','24','25','26','27','28','29','30']
+                categories: <?php echo json_encode($channels);?>,
+                minpadding:0.05
             },
             yAxis: {
                 title: {
-                    text: '开机人数'
+                    text: '收看小时'
                 },
                 plotLines: [{
                     value: 0,
@@ -69,7 +71,7 @@
                 }]
             },
             tooltip: {
-                valueSuffix: '人'
+                valueSuffix: '小时'
             },
             legend: {
                 layout: 'vertical',

@@ -168,7 +168,7 @@ class WatchRecord_model extends CI_Model {
     
     public function get_peoplewatch_channel_time($options,$channelID) {
         
-           $channels=  $this->get_channel();
+   
 
         $this->db->from('watchrecordpeoplesample');
         $this->db->join('peoplesample', 'watchrecordpeoplesample.WR_PplID = peoplesample.Ppl_ID');
@@ -214,9 +214,9 @@ class WatchRecord_model extends CI_Model {
     }
     
     public function get_wholechannel(){
-        $this->db->select('Chl_ID','Chl_Des');
+        $this->db->select('Chl_ID,Chl_Des');
         $this->db->from('channel');
-       return $this->db->get()->reuslut_array();
+       return $this->db->get()->result_array();
     }
     public function get_channel(){
         $dba=$this->load->database("default",TRUE);

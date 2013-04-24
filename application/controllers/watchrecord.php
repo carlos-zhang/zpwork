@@ -344,13 +344,14 @@ class WatchRecord extends CI_Controller {
             $channels = $this->watchrecord_model->get_wholechannel();
             $result = array();
         foreach ($channels as $channel) {
+            
             $result[$channel["Chl_Des"]] = $this->watchrecord_model->get_peoplewatch_channel_time($finaloption, $channel["Chl_ID"]);
         };
             $tempresult = array();
 
             foreach ($result as $ke=>$result) {
                 
-                $tempresult[] = $result[0]["WR_Time"];
+                $tempresult[] = $result[0]["WR_Time"]/(60*60);
             }
             $results["data"] = $tempresult;
             $results["name"] = "条柱" . ($key + 1);
@@ -363,8 +364,15 @@ class WatchRecord extends CI_Controller {
         
     }
     public function epgview(){
+        
+        $data['channels']=array();
+        $channels=$this->watchrecord_model->get_wholechannel();
+        foreach ($channels as $channel){
+          $data['channels'][]=$channel['Chl_Des'];
+        }
+        
         $data["title"]="EPG数据条形图";
-        $this->load->view("templates/header");
+        $this->load->view("templates/header",$data);
         $this->load->view("watchrecord/epgstatics");
         $this->load->view("templates/footer");
     }
