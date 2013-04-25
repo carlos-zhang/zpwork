@@ -12,6 +12,14 @@ $this->load->helper('url');
 
     <link href="http://127.0.0.1/zpwork/css/index.css" type="text/css" rel="stylesheet"/>
 </head>
+<script>
+$(function(){
+    $(h3).click(function(){
+        $(this).parent()
+    })
+});
+
+</script>
 <body>
 <div class="header">
     <h1>广播电视增值业务广告投放系统</h1>
@@ -19,16 +27,26 @@ $this->load->helper('url');
 <div class="content">
     <div class="left-menu">
         <ul>
-            <h2>收视数据图表分析</h2>
+            <h2>收视数据图表分析</h2> 
+            <h3>开机广告</h3>
+            <ul>
+               
             <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/byday">每日开机</a></li>
             <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/bytime">每时开机</a></li>
             <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/comparebyday">每日对比</a></li>
             <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/comparebytime">每时对比</a></li>
+            </ul> 
+            <h3>EPG广告</h3>
+            <ul>
+               
+                <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/epgview">EPG频道收视</a></li>
+            </ul>
 
         </ul>
         <ul>
             <h2>广告投放推荐</h2>
-            <li>开机广告</li>
+            <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/openrecomment">开机广告</a></li>
+            <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/epgrecomment">EPG广告</a></li>
             
         </ul>
 
