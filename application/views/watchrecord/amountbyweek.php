@@ -26,7 +26,7 @@ $(function () {
                 marginBottom: 25
             },
             title: {
-                text: '每日开机人数图',
+                text: '每周开机人数图',
                 x: -20 //center
             },
           
@@ -65,48 +65,48 @@ $(function () {
    )});
        
   
-        $('#chart').highcharts({
-            chart: {
-                type: 'line',
-                marginRight: 130,
-                marginBottom: 25
-            },
-            title: {
-                text: '每日开机人数图',
-                x: -20 //center
-            },
-          
-            xAxis: {
-                categories: [ '星期天','星期一', '星期二', '星期三', '星期四', '星期五',
-                    '星期六']
-            } ,
-            yAxis: {
-                title: {
-                    text: '开机人数'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                valueSuffix: '人'
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'top',
-                x: -10,
-                y: 100,
-                borderWidth: 0
-            },
-            series: [{
-                name: '人数',
-                data: <?php echo $time;?>
-            }
-            ]
-        });
+//        $('#chart').highcharts({
+//            chart: {
+//                type: 'line',
+//                marginRight: 130,
+//                marginBottom: 25
+//            },
+//            title: {
+//                text: '每周开机人数图',
+//                x: -20 //center
+//            },
+//          
+//            xAxis: {
+//                categories: [ '星期天','星期一', '星期二', '星期三', '星期四', '星期五',
+//                    '星期六']
+//            } ,
+//            yAxis: {
+//                title: {
+//                    text: '开机人数'
+//                },
+//                plotLines: [{
+//                    value: 0,
+//                    width: 1,
+//                    color: '#808080'
+//                }]
+//            },
+//            tooltip: {
+//                valueSuffix: '人'
+//            },
+//            legend: {
+//                layout: 'vertical',
+//                align: 'right',
+//                verticalAlign: 'top',
+//                x: -10,
+//                y: 100,
+//                borderWidth: 0
+//            },
+//            series: [{
+//                name: '人数',
+//                data: <?php // echo $time;?>
+//            }
+//            ]
+//        });
     });
     </script>
     <div class="main">
@@ -154,6 +154,7 @@ $(function () {
                  <input name='job[]' type='checkbox' value='15'>广播电视/文化艺术
                  <input name='job[]' type='checkbox' value='16'>其它
                 </div>
+                
                 <div>
                  <button id='submit'>执行</button>
                 </div>

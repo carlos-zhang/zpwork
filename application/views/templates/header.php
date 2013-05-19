@@ -13,11 +13,7 @@ $this->load->helper('url');
     <link href="http://127.0.0.1/zpwork/css/index.css" type="text/css" rel="stylesheet"/>
 </head>
 <script>
-$(function(){
-    $(h3).click(function(){
-        $(this).parent()
-    })
-});
+
 
 </script>
 <body>
@@ -33,6 +29,7 @@ $(function(){
                
             <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/byday">每日开机</a></li>
             <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/bytime">每时开机</a></li>
+            <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/byweek">每周开机</a></li>
             <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/comparebyday">每日对比</a></li>
             <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/comparebytime">每时对比</a></li>
             </ul> 
@@ -40,13 +37,15 @@ $(function(){
             <ul>
                
                 <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/epgview">EPG频道收视</a></li>
+                <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/epgrank">EPGrank</a></li>
+                <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/epgfocus">EPGfocus</a></li>
             </ul>
 
         </ul>
         <ul>
             <h2>广告投放推荐</h2>
             <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/openrecomment">开机广告</a></li>
-            <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/epgrecomment">EPG广告</a></li>
+            <li><a href="http://127.0.0.1/zpwork/index.php/watchrecord/epgrecommentview">EPG广告</a></li>
             
         </ul>
 

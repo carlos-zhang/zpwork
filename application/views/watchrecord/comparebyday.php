@@ -49,7 +49,7 @@
                 marginBottom: 25
             },
             title: {
-                text: '每日开机人数图',
+                text: '每日开机对比图',
                 x: -20 //center
             },
           

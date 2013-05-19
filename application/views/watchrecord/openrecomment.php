@@ -97,8 +97,8 @@
             </div>
         </div>
         <div class="statistic">
-            支持度：<input name='support' type="text">
-            置信度：<input name="confidence" type="text">
+<!--            支持度：<input name='support' type="text">-->
+<!--            置信度：<input name="confidence" type="text">-->
             <button id="submit"> 执行 </button>
         </div>
 

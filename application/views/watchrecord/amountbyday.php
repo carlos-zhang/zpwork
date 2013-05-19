@@ -21,7 +21,7 @@ $(function () {
         type:"get",
         dataType:"json",
         success:function(data){
-            
+            console.log("success");
         $('#chart').highcharts({
             chart: {
                 type: 'line',

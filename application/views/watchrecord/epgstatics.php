@@ -4,6 +4,11 @@
  * and open the template in the editor.
  */
 ?>
+<style type="text/css">
+#chart{
+    overflow: scroll;
+}
+</style>
 <script>
    
     $(function() {
@@ -44,10 +49,9 @@
             
         $('#chart').highcharts({
             chart: {
-                type: 'column',
+                type: 'bar',
                 marginRight: 130,
-                marginBottom: 25,
-                width:12000
+                height:12000
               
             },
             title: {
